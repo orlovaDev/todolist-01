@@ -20,7 +20,6 @@ export const TodolistItem = ({title, tasks, deleteTask, changeFilter}: TodolistP
     : <ul>
       {
         tasks.map((task: TaskPropsType) => {
-          debugger
           return (
             <li key={task.id}>
               <input type="checkbox" checked={task.isDone}/>
