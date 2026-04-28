@@ -1,14 +1,11 @@
-import * as React from "react";
-
 type ButtonPropsType = {
   title: string
   onClick?: () => void
-  style?: React.CSSProperties;
 }
 
-export const Button = ({title, onClick, style}: ButtonPropsType) => {
+export const Button = ({title, onClick}: ButtonPropsType) => {
   return (
-    <button style={style} onClick={onClick}>{title}</button>
+    <button onClick={onClick}>{title}</button>
   );
 };
 

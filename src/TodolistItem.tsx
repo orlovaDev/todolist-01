@@ -15,6 +15,7 @@ type TodolistPropsType = {
   changeFilter: (filter: FilterPropsType) => void
   createTask: (title: string) => void
   deleteAllTask: () => void
+  changeTaskStatus: (taskId: TaskPropsType["id"], isDone: TaskPropsType["isDone"]) => void
 }
 
 export const TodolistItem = ({
@@ -23,22 +24,29 @@ export const TodolistItem = ({
                                deleteTask,
                                changeFilter,
                                createTask,
-                               deleteAllTask
+                               deleteAllTask,
+                               changeTaskStatus
                              }: TodolistPropsType) => {
+
+  // const [taskInput, setTaskInput] = useState("")
+  // const [error, setError] = useState(false)
+
   const tasksList = tasks.length === 0
     ? <span>Tasks list is empty</span>
     : <ul>
-
       {
         tasks.map((task: TaskPropsType) => {
           const deleteTaskHandler = () => {
             deleteTask(task.id)
           }
+          const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => changeTaskStatus(task.id, e.currentTarget.checked)
+
           return (
             <li key={task.id}>
               <input
                 type="checkbox"
                 checked={task.isDone}
+                onChange={changeTaskStatusHandler}
               />
               <span>{task.title}</span>
               <Button
@@ -49,7 +57,9 @@ export const TodolistItem = ({
           )
         })
       }</ul>
+
   const [taskTitle, setTaskTitle] = useState('')
+
   const createTaskHandler = () => {
     createTask(taskTitle)
     setTaskTitle('')
@@ -74,9 +84,7 @@ export const TodolistItem = ({
         />
         <Button
           title={'+'}
-          onClick={() => {
-            createTaskHandler()
-          }}
+          onClick={createTaskHandler}
         />
       </div>
       {tasksList}
@@ -95,7 +103,6 @@ export const TodolistItem = ({
         />
         <br />
         <Button
-          style={{backgroundColor: 'red', color: 'white'}}
           title="Delete all tasks"
           onClick={() => deleteAllTask()}
         />
