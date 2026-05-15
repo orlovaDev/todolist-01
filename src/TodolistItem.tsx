@@ -31,8 +31,8 @@ export const TodolistItem = ({
                              }: TodolistPropsType) => {
 
   // const [taskInput, setTaskInput] = useState("")
-  const [error, setError] = useState<string | null>(null)
-  const [taskTitle, setTaskTitle] = useState('')
+  const [error, setError] = useState(false)
+  const [taskInput, setTaskInput] = useState('')
 
   const tasksList = tasks.length === 0
     ? <span>Tasks list is empty</span>
@@ -51,7 +51,7 @@ export const TodolistItem = ({
                 checked={task.isDone}
                 onChange={changeTaskStatusHandler}
               />
-              <span>{task.title}</span>
+              <span className={task.isDone ? "task-done" : "task"}>{task.title}</span>
               <Button
                 title={"x"}
                 onClick={deleteTaskHandler}
@@ -62,21 +62,23 @@ export const TodolistItem = ({
       }</ul>
 
   const createTaskHandler = () => {
-    const trimmedTitle = taskTitle.trim()
+    const trimmedTitle = taskInput.trim()
     if (trimmedTitle) {
       createTask(trimmedTitle)
-      setTaskTitle('')
     } else {
-      setError('Title is required')
+      setError(true)
     }
+    setTaskInput('')
   }
-  const changeTaskTitleHandler = (event: ChangeEvent<HTMLInputElement>) => {
-    setTaskTitle(event.currentTarget.value)
-    setError(null)
+
+  const isTaskTitleValid = Boolean(taskInput.length) && taskInput.length <= 15
+  const setLocalTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
+    error && setError(false)
+    setTaskInput(e.currentTarget.value)
   }
 
   const createTaskOnEnterHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter') {
+    if (event.key === 'Enter' && isTaskTitleValid) {
       createTaskHandler()
     }
   }
@@ -86,15 +88,18 @@ export const TodolistItem = ({
       <div>
         <input
           className = { error ? "error" : ""}
-          value={taskTitle}
-          onChange={changeTaskTitleHandler}
+          value={taskInput}
+          onChange={setLocalTitleHandler}
           onKeyDown={createTaskOnEnterHandler}
         />
         <Button
           title={'+'}
+          disabled={!isTaskTitleValid}
           onClick={createTaskHandler}
         />
-        {error && <div className={'error-message'}>{error}</div>}
+        {taskInput.length === 0 && <div style={{ color: error ? "red" : "inherit" }}>Enter title end press button</div>}
+        {isTaskTitleValid && <div>Max title length is 15 charters</div>}
+        {taskInput.length > 15 && <div style={{ color: "red" }}>Title length is too long</div>}
       </div>
       {tasksList}
       <div>

@@ -2,6 +2,7 @@ import './App.css'
 import {TaskPropsType, TodolistItem} from "./TodolistItem.tsx";
 import {useState} from "react";
 import {v1, v4} from "uuid";
+import {getFilterTasks} from "./utilites/getFilteredTasks.tsx";
 
 
 export type FilterPropsType = 'all' | 'active' | 'completed'
@@ -24,7 +25,7 @@ export const App = () => {
     setTasks(nextState)
   }
 
-  const createTask = (title: string) => {
+  const createTask = (title: TaskPropsType["title"]) => {
     const newTask = {
       id: v4(),
       title: title,
@@ -48,13 +49,8 @@ export const App = () => {
   const changeFilter = (filter: FilterPropsType) => {
     setFilter(filter)
   }
-  let filteredTasks: TaskPropsType[] = tasks
-  if (filter === "active") {
-    filteredTasks = tasks.filter((task) => !task.isDone)
-  }
-  if (filter === "completed") {
-    filteredTasks = tasks.filter((task) => task.isDone)
-  }
+
+  const filteredTasks = getFilterTasks(tasks, filter)
 
   return (
     <div className="app">

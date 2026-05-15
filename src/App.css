@@ -7,6 +7,10 @@
   margin-right: 50px;
 }
 
+.task {
+  font-weight: bold;
+}
+
 .error {
   border: red 1px solid;
 }
