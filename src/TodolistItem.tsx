@@ -1,33 +1,34 @@
 import {Button} from "./Button.tsx";
-import {FilterPropsType} from "./App.tsx";
+import {FilterValueType, TodolistType} from "./App.tsx";
 import {ChangeEvent, KeyboardEvent, useState} from 'react'
 
-export type TaskPropsType = {
+export type TaskType = {
   id: string
   title: string
   isDone: boolean
 }
 
 type TodolistPropsType = {
+  todolistId: TodolistType["id"]
   title: string
-  tasks: TaskPropsType[]
-  deleteTask: (taskId: TaskPropsType["id"]) => void
-  changeFilter: (filter: FilterPropsType) => void
-  createTask: (title: string) => void
-  deleteAllTask: () => void
-  filter: FilterPropsType
-  changeTaskStatus: (taskId: TaskPropsType["id"], isDone: TaskPropsType["isDone"]) => void
+  tasks: TaskType[]
+  deleteTask: (taskId: TaskType["id"], todolistId: TodolistType["id"]) => void
+  changeFilter: (filter: FilterValueType, todolistId: TodolistType["id"]) => void
+  createTask: (title: string, todolistId: TodolistType["id"]) => void
+  filter: FilterValueType
+  changeTaskStatus: (taskId: TaskType["id"], isDone: TaskType["isDone"], todolistId: TodolistType["id"]) => void
+  deleteTodolist: (todolistId: TodolistType["id"]) => void
 }
 
-export const TodolistItem = ({
+export const TodolistItem = ({ todolistId,
                                title,
                                tasks,
                                deleteTask,
                                changeFilter,
                                createTask,
-                               deleteAllTask,
                                filter,
-                               changeTaskStatus
+                               changeTaskStatus,
+                               deleteTodolist
                              }: TodolistPropsType) => {
 
   // const [taskInput, setTaskInput] = useState("")
@@ -38,11 +39,11 @@ export const TodolistItem = ({
     ? <span>Tasks list is empty</span>
     : <ul>
       {
-        tasks.map((task: TaskPropsType) => {
+        tasks.map((task: TaskType) => {
           const deleteTaskHandler = () => {
-            deleteTask(task.id)
+            deleteTask(task.id, todolistId)
           }
-          const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => changeTaskStatus(task.id, e.currentTarget.checked)
+          const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => changeTaskStatus(task.id, e.currentTarget.checked, todolistId)
 
           return (
             <li key={task.id} className={task.isDone ? "is-done" : ""}>
@@ -64,7 +65,7 @@ export const TodolistItem = ({
   const createTaskHandler = () => {
     const trimmedTitle = taskInput.trim()
     if (trimmedTitle) {
-      createTask(trimmedTitle)
+      createTask(trimmedTitle, todolistId)
     } else {
       setError(true)
     }
@@ -84,7 +85,14 @@ export const TodolistItem = ({
   }
   return (
     <div>
-      <h3>{title}</h3>
+      <h3>
+        {title}
+        <Button
+          title = "x"
+          onClick={() => deleteTodolist(todolistId)}
+          className="delete-all"
+        />
+      </h3>
       <div>
         <input
           className = { error ? "error" : ""}
@@ -106,23 +114,17 @@ export const TodolistItem = ({
         <Button
           className={filter === "all" ? "active-filter" : "" }
           title="All"
-          onClick={() => changeFilter('all')}
+          onClick={() => changeFilter('all', todolistId)}
         />
         <Button
           className={filter === "active" ? "active-filter" : "" }
           title="Active"
-          onClick={() => changeFilter('active')}
+          onClick={() => changeFilter('active', todolistId)}
         />
         <Button
           className={filter === "completed" ? "active-filter" : "" }
           title="Completed"
-          onClick={() => changeFilter('completed')}
-        />
-        <br />
-        <Button
-          className="delete-all"
-          title="Delete all tasks"
-          onClick={() => deleteAllTask()}
+          onClick={() => changeFilter('completed', todolistId)}
         />
       </div>
     </div>

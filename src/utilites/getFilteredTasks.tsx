@@ -1,7 +1,7 @@
-import {TaskPropsType} from "../TodolistItem.tsx";
-import {FilterPropsType} from "../App.tsx";
+import {TaskType} from "../TodolistItem.tsx";
+import {FilterValueType} from "../App.tsx";
 
-export const getFilterTasks = (tasks: TaskPropsType[], filter: FilterPropsType) => {
+export const getFilterTasks = (tasks: TaskType[], filter: FilterValueType) => {
   let filteredTasks = tasks
 
   if (filter === "active") {
