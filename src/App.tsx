@@ -2,6 +2,7 @@ import './App.css'
 import {TaskType, TodolistItem} from "./TodolistItem.tsx";
 import {useState} from "react";
 import {v1, v4} from "uuid";
+import {CreateItemForm} from "./CreateItemForm.tsx";
 import {getFilterTasks} from "./utilites/getFilteredTasks.tsx";
 
 
@@ -51,6 +52,8 @@ export const App = () => {
     ],
   })
 
+
+  // tasks
   const deleteTask = (taskId: TaskType["id"], todolistId: TodolistType["id"]) => {
 
     // ПРЯМАЯ ЛОГИКА ПО ШАГАМ
@@ -91,18 +94,36 @@ export const App = () => {
     // setTasks(nextState)
   }
 
-  const changeFilter = (filter: FilterValueType, todolistId: TodolistType["id"]) => {
-    setTodolists(todolists.map(tl => tl.id === todolistId ? {...tl, filter: filter } : tl))
+  const changeTaskTitle = (taskId: TaskType["id"], title: TaskType["title"], todolistId: TodolistType["id"]) => {
+    setTasks({...tasks, [todolistId]: tasks[todolistId].map(t => t.id === taskId ? {...t, title: title} : t) })
   }
 
 
+  // todolists
   const deleteTodolist = (todolistId: TodolistType["id"]) => {
     setTodolists(todolists.filter(tl => tl.id !== todolistId))
   }
 
+  const createTodolist = (title: TodolistType["title"]) => {
+    const newTodoId = v1()
+    const newTodo: TodolistType = {
+      id: newTodoId,
+      title: title,
+      filter: "all"
+    }
+    setTodolists([...todolists, newTodo])
+    setTasks({...tasks, [newTodoId]: []})
+  }
+
+  const changeTodolistFilter = (filter: FilterValueType, todolistId: TodolistType["id"]) => {
+    setTodolists(todolists.map(tl => tl.id === todolistId ? {...tl, filter: filter } : tl))
+  }
+
+  const changeTodolistTitle = (title: TodolistType["title"], todolistId: TodolistType["id"]) => {
+    setTodolists(todolists.map(tl => tl.id === todolistId ? {...tl, title: title } : tl))
+  }
+
   //   UI
-
-
   const todolistsComponents = todolists.map(tl => {
     const filteredTasks = getFilterTasks(tasks[tl.id], tl.filter)
     return (
@@ -114,15 +135,18 @@ export const App = () => {
         deleteTask={deleteTask}
         createTask={createTask}
         changeTaskStatus={changeTaskStatus}
+        changeTaskTitle={changeTaskTitle}
         filter={tl.filter}
-        changeFilter={changeFilter}
+        changeTodolistFilter={changeTodolistFilter}
         deleteTodolist={deleteTodolist}
+        changeTodolistTitle={changeTodolistTitle}
       />
     )
   })
 
   return (
     <div className="app">
+      <CreateItemForm createItem={createTodolist} maxTitleLenght={15}/>
       {todolistsComponents}
     </div>
   )
