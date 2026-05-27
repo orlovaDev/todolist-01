@@ -3,15 +3,15 @@ import {ChangeEvent, KeyboardEvent, useState} from "react";
 
 type PropsType = {
   createItem: (itemTitle: string) => void,
-  maxTitleLenght : number
+  maxTitleLength : number
 }
 
-export const CreateItemForm = ({createItem, maxTitleLenght}: PropsType) => {
+export const CreateItemForm = ({createItem, maxTitleLength}: PropsType) => {
 
   const [itemInput, setItemInput] = useState('')
   const [error, setError] = useState(false)
 
-  const isItemTitleValid = Boolean(itemInput.length) && itemInput.length <= 15
+  const isItemTitleValid = Boolean(itemInput.length) && itemInput.length <= maxTitleLength
 
   const setLocalTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
     error && setError(false)
@@ -49,8 +49,8 @@ export const CreateItemForm = ({createItem, maxTitleLenght}: PropsType) => {
         onClick={createItemHandler}
       />
       {itemInput.length === 0 && <div style={{color: error ? "red" : "inherit"}}>Enter title end press button</div>}
-      {isItemTitleValid && <div>Max title length is {maxTitleLenght} charters</div>}
-      {itemInput.length > maxTitleLenght && <div style={{color: "red"}}>Title length is too long</div>}
+      {isItemTitleValid && <div>Max title length is {maxTitleLength} charters</div>}
+      {itemInput.length > maxTitleLength && <div style={{color: "red"}}>Title length is too long</div>}
     </div>
   )
 }

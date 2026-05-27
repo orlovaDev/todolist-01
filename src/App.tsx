@@ -3,7 +3,7 @@ import {TaskType, TodolistItem} from "./TodolistItem.tsx";
 import {useState} from "react";
 import {v1, v4} from "uuid";
 import {CreateItemForm} from "./CreateItemForm.tsx";
-import {getFilterTasks} from "./utilites/getFilteredTasks.tsx";
+import {getFilterTasks} from "./utilites/getFilteredTasks.ts";
 
 
 export type FilterValueType = 'all' | 'active' | 'completed'
@@ -17,6 +17,7 @@ export type TodolistType = {
 type TaskStateType = {
   [todolistId: string]: TaskType[]
 }
+
 
 export const App = () => {
 
@@ -68,7 +69,7 @@ export const App = () => {
   }
 
   const createTask = (title: TaskType["title"], todolistId: TodolistType["id"]) => {
-    const newTask = {
+    const newTask: TaskType = {
       id: v4(),
       title: title,
       isDone: false
@@ -146,7 +147,7 @@ export const App = () => {
 
   return (
     <div className="app">
-      <CreateItemForm createItem={createTodolist} maxTitleLenght={15}/>
+      <CreateItemForm createItem={createTodolist} maxTitleLength={20}/>
       {todolistsComponents}
     </div>
   )

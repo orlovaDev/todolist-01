@@ -7,8 +7,10 @@ type PropsType = {
 }
 
 export const EditableSpan = ({title, changeTitle, className}: PropsType) => {
+
   const [itemTitle, setItemTitle] = useState(title)
   const [editMode, setEditMode] = useState(false)
+
   const setLocalTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
     setItemTitle(e.currentTarget.value)
   }

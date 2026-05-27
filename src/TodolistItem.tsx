@@ -42,13 +42,17 @@ export const TodolistItem = ({ todolistId,
     : <ul>
       {
         tasks.map((task: TaskType) => {
+
           const deleteTaskHandler = () => {
             deleteTask(task.id, todolistId)
           }
+
           const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => changeTaskStatus(task.id, e.currentTarget.checked, todolistId)
+
           const changeTaskTitleHandler = (newTitle: TaskType["title"]) => {
             changeTaskTitle(task.id, newTitle, todolistId)
           }
+
           return (
             <li key={task.id} className={task.isDone ? "is-done" : ""}>
               <input
@@ -70,21 +74,22 @@ export const TodolistItem = ({ todolistId,
       createTask(taskTitle, todolistId)
   }
 
-  const changeTitle = (newTitle: TodolistType["title"]) => {
+  const changeTodolistTitleHandler = (newTitle: TodolistType["title"]) => {
     changeTodolistTitle(newTitle, todolistId)
   }
+  const deleteTodolistHandler = () => deleteTodolist(todolistId)
 
   return (
     <div>
       <h3>
-      <EditableSpan title={title} changeTitle={changeTitle}/>
+      <EditableSpan title={title} changeTitle={changeTodolistTitleHandler}/>
         <Button
           title = "x"
-          onClick={() => deleteTodolist(todolistId)}
+          onClick={deleteTodolistHandler}
           className="delete-all"
         />
       </h3>
-      <CreateItemForm createItem={createTaskHandler} maxTitleLenght={15}/>
+      <CreateItemForm createItem={createTaskHandler} maxTitleLength={15}/>
       {tasksList}
       <div>
         <Button
