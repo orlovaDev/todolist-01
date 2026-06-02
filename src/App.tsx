@@ -55,7 +55,7 @@ export const App = () => {
 
 
   // tasks
-  const deleteTask = (taskId: TaskType["id"], todolistId: TodolistType["id"]) => {
+  const deleteTask = (payload: { taskId: TaskType["id"], todolistId: TodolistType["id"] }) => {
 
     // ПРЯМАЯ ЛОГИКА ПО ШАГАМ
     // const todolistsTasks = tasks[todolistId]
@@ -65,10 +65,12 @@ export const App = () => {
     // setTasks(nextTasksState)
 
     // 2-й вариант записи
+    const {taskId, todolistId} = payload
     setTasks({...tasks, [todolistId]: tasks[todolistId].filter(task => task.id !== taskId)})
   }
 
-  const createTask = (title: TaskType["title"], todolistId: TodolistType["id"]) => {
+  const createTask = (payload: { title: TaskType["title"], todolistId: TodolistType["id"] }) => {
+    const {title, todolistId} = payload
     const newTask: TaskType = {
       id: v4(),
       title: title,
@@ -78,25 +80,26 @@ export const App = () => {
     // const nextTasksState = {...tasks}
     // nextTasksState[todolistId] = addedTask
     // setTasks(nextTasksState)
-    setTasks({...tasks, [todolistId]: [...tasks[todolistId], newTask] })
+    setTasks({...tasks, [todolistId]: [...tasks[todolistId], newTask]})
   }
 
-  const changeTaskStatus = (taskId: TaskType["id"], isDone: TaskType["isDone"], todolistId: TodolistType["id"]) => {
+  const changeTaskStatus = (payload: { taskId: TaskType["id"], isDone: TaskType["isDone"], todolistId: TodolistType["id"] }) => {
     // const todolistsTasks = tasks[todolistId]
     // const changedStatusTasks = todolistsTasks.map(t => t.id === taskId ? {...t, isDone: isDone} : t)
     // const nextTasksState = {...tasks}
     // nextTasksState[todolistId] = changedStatusTasks
     // setTasks(nextTasksState)
-
-    setTasks({...tasks, [todolistId]: tasks[todolistId].map(t => t.id === taskId ? {...t, isDone: isDone} : t) })
+    const {taskId, isDone, todolistId} = payload
+    setTasks({...tasks, [todolistId]: tasks[todolistId].map(t => t.id === taskId ? {...t, isDone: isDone} : t)})
 
 
     // const nextState: TaskType[] = tasks.map(t => t.id === taskId ? {...t, isDone: isDone} : t)
     // setTasks(nextState)
   }
 
-  const changeTaskTitle = (taskId: TaskType["id"], title: TaskType["title"], todolistId: TodolistType["id"]) => {
-    setTasks({...tasks, [todolistId]: tasks[todolistId].map(t => t.id === taskId ? {...t, title: title} : t) })
+  const changeTaskTitle = (payload: {taskId: TaskType["id"], title: TaskType["title"], todolistId: TodolistType["id"]}) => {
+    const {taskId, title, todolistId} = payload
+    setTasks({...tasks, [todolistId]: tasks[todolistId].map(t => t.id === taskId ? {...t, title: title} : t)})
   }
 
 
@@ -116,12 +119,14 @@ export const App = () => {
     setTasks({...tasks, [newTodoId]: []})
   }
 
-  const changeTodolistFilter = (filter: FilterValueType, todolistId: TodolistType["id"]) => {
-    setTodolists(todolists.map(tl => tl.id === todolistId ? {...tl, filter: filter } : tl))
+  const changeTodolistFilter = (payload: {filter: FilterValueType, todolistId: TodolistType["id"]}) => {
+    const{filter, todolistId} = payload
+    setTodolists(todolists.map(tl => tl.id === todolistId ? {...tl, filter: filter} : tl))
   }
 
-  const changeTodolistTitle = (title: TodolistType["title"], todolistId: TodolistType["id"]) => {
-    setTodolists(todolists.map(tl => tl.id === todolistId ? {...tl, title: title } : tl))
+  const changeTodolistTitle = (payload : {title: TodolistType["title"], todolistId: TodolistType["id"]}) => {
+    const {title, todolistId} = payload
+    setTodolists(todolists.map(tl => tl.id === todolistId ? {...tl, title: title} : tl))
   }
 
   //   UI
@@ -147,7 +152,10 @@ export const App = () => {
 
   return (
     <div className="app">
-      <CreateItemForm createItem={createTodolist} maxTitleLength={20}/>
+      <CreateItemForm
+        createItem={createTodolist}
+        maxTitleLength={20}
+      />
       {todolistsComponents}
     </div>
   )

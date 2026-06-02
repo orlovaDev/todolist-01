@@ -14,14 +14,14 @@ type TodolistPropsType = {
   todolistId: TodolistType["id"]
   title: string
   tasks: TaskType[]
-  deleteTask: (taskId: TaskType["id"], todolistId: TodolistType["id"]) => void
-  changeTodolistFilter: (filter: FilterValueType, todolistId: TodolistType["id"]) => void
-  createTask: (title: string, todolistId: TodolistType["id"]) => void
-  changeTaskTitle: (taskId: TaskType["id"], title: TaskType["title"], todolistId: TodolistType["id"]) => void
+  deleteTask: (payload: {taskId: TaskType["id"], todolistId: TodolistType["id"]}) => void
+  changeTodolistFilter: (payload: {filter: FilterValueType, todolistId: TodolistType["id"]}) => void
+  createTask: (payload: {title: TaskType["title"], todolistId: TodolistType["id"]}) => void
+  changeTaskTitle: (payload: {taskId: TaskType["id"], title: TaskType["title"], todolistId: TodolistType["id"]})=> void
   filter: FilterValueType
-  changeTaskStatus: (taskId: TaskType["id"], isDone: TaskType["isDone"], todolistId: TodolistType["id"]) => void
+  changeTaskStatus: (payload: { taskId: TaskType["id"], isDone: TaskType["isDone"], todolistId: TodolistType["id"] })=> void
   deleteTodolist: (todolistId: TodolistType["id"]) => void
-  changeTodolistTitle: (title: TodolistType["title"], todolistId: TodolistType["id"]) => void
+  changeTodolistTitle: (payload : {title: TodolistType["title"], todolistId: TodolistType["id"]}) => void
 }
 
 export const TodolistItem = ({ todolistId,
@@ -44,13 +44,13 @@ export const TodolistItem = ({ todolistId,
         tasks.map((task: TaskType) => {
 
           const deleteTaskHandler = () => {
-            deleteTask(task.id, todolistId)
+            deleteTask({taskId: task.id, todolistId: todolistId})
           }
 
-          const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => changeTaskStatus(task.id, e.currentTarget.checked, todolistId)
+          const changeTaskStatusHandler = (e: ChangeEvent<HTMLInputElement>) => changeTaskStatus({taskId: task.id, isDone: e.currentTarget.checked, todolistId: todolistId})
 
           const changeTaskTitleHandler = (newTitle: TaskType["title"]) => {
-            changeTaskTitle(task.id, newTitle, todolistId)
+            changeTaskTitle({taskId: task.id, title: newTitle, todolistId: todolistId})
           }
 
           return (
@@ -71,11 +71,11 @@ export const TodolistItem = ({ todolistId,
       }</ul>
 
   const createTaskHandler = (taskTitle: TaskType["title"]) => {
-      createTask(taskTitle, todolistId)
+      createTask({title: taskTitle , todolistId: todolistId})
   }
 
   const changeTodolistTitleHandler = (newTitle: TodolistType["title"]) => {
-    changeTodolistTitle(newTitle, todolistId)
+    changeTodolistTitle({title: newTitle, todolistId})
   }
   const deleteTodolistHandler = () => deleteTodolist(todolistId)
 
@@ -95,17 +95,17 @@ export const TodolistItem = ({ todolistId,
         <Button
           className={filter === "all" ? "active-filter" : "" }
           title="All"
-          onClick={() => changeTodolistFilter('all', todolistId)}
+          onClick={() => changeTodolistFilter({filter: 'all', todolistId})}
         />
         <Button
           className={filter === "active" ? "active-filter" : "" }
           title="Active"
-          onClick={() => changeTodolistFilter('active', todolistId)}
+          onClick={() => changeTodolistFilter({filter: 'active', todolistId})}
         />
         <Button
           className={filter === "completed" ? "active-filter" : "" }
           title="Completed"
-          onClick={() => changeTodolistFilter('completed', todolistId)}
+          onClick={() => changeTodolistFilter({filter: 'completed', todolistId})}
         />
       </div>
     </div>
