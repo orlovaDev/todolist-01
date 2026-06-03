@@ -1,9 +1,10 @@
-import {Button} from "./Button.tsx";
 import {ChangeEvent, KeyboardEvent, useState} from "react";
+import {IconButton, TextField} from "@mui/material";
+import AddBoxIcon from '@mui/icons-material/AddBox';
 
 type PropsType = {
   createItem: (itemTitle: string) => void,
-  maxTitleLength : number
+  maxTitleLength: number
 }
 
 export const CreateItemForm = ({createItem, maxTitleLength}: PropsType) => {
@@ -11,46 +12,73 @@ export const CreateItemForm = ({createItem, maxTitleLength}: PropsType) => {
   const [itemInput, setItemInput] = useState('')
   const [error, setError] = useState(false)
 
-  const isItemTitleValid = Boolean(itemInput.length) && itemInput.length <= maxTitleLength
+  const isTooLong = itemInput.length > maxTitleLength
 
   const setLocalTitleHandler = (e: ChangeEvent<HTMLInputElement>) => {
-    error && setError(false)
-    setItemInput(e.currentTarget.value)
-  }
+    const inputValue = e.currentTarget.value
+    setItemInput(inputValue)
 
+    // Если текст превысил лимит, СРАЗУ включаем красную рамку
+    if (inputValue.length > maxTitleLength) {
+      setError(true)
+    } else {
+      // Если пользователь стирает лишние символы и возвращается в лимит, гасим ошибку
+      setError(false)
+    }
+  }
   const createItemOnEnterHandler = (event: KeyboardEvent<HTMLInputElement>) => {
-    if (event.key === 'Enter' && isItemTitleValid) {
+    if (event.key === 'Enter') {
       createItemHandler()
     }
   }
 
   const createItemHandler = () => {
     const trimmedTitle = itemInput.trim()
-    if (trimmedTitle) {
-      createItem(trimmedTitle)
-    } else {
-      setError(true)
+    if (!trimmedTitle || isTooLong) {
+      setError(true )
+      return
     }
+    createItem(trimmedTitle)
     setItemInput('')
+    setError(false) // Сбрасываем ошибку после успешного добавления
   }
 
+  let userMessage = "";
+  if (itemInput.length === 0) {
+    userMessage = error ? "Title is required!" : "";
+  } else if (itemInput.length > maxTitleLength) {
+    userMessage = "Title length is too long";
+  } else {
+    userMessage = `Max title length is ${maxTitleLength} characters`;
+  }
 
   return (
     <div>
-      <input
-        className={error ? "error" : ""}
+      <TextField
+        label={'Enter a title'}
+        variant="outlined"
+        size="small"
         value={itemInput}
         onChange={setLocalTitleHandler}
         onKeyDown={createItemOnEnterHandler}
+        error={error}
+        helperText={userMessage}
+        sx={{
+          '& .MuiFormHelperText-root': {
+            // Если ошибки нет, цвет фиолетовый. Если error={true}, MUI сам перекрасит в красный
+            color: error ? 'red' : 'purple',
+            fontWeight: 500,
+          }
+        }}
       />
-      <Button
-        title={'+'}
-        disabled={!isItemTitleValid}
+
+      <IconButton
         onClick={createItemHandler}
-      />
-      {itemInput.length === 0 && <div style={{color: error ? "red" : "inherit"}}>Enter title end press button</div>}
-      {isItemTitleValid && <div>Max title length is {maxTitleLength} charters</div>}
-      {itemInput.length > maxTitleLength && <div style={{color: "red"}}>Title length is too long</div>}
+        disabled={isTooLong}
+        size="small"
+      >
+        <AddBoxIcon />
+      </IconButton>
     </div>
   )
 }

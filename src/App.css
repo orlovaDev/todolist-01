@@ -1,34 +1,31 @@
 .app {
-  padding: 30px;
   display: flex;
+  flex-direction: column;
+  width: 100vw;
 }
 
-.app > div {
-  margin-right: 50px;
-}
+/*.task {*/
+/*  font-weight: bold;*/
+/*}*/
 
-.task {
-  font-weight: bold;
-}
+/*.error {*/
+/*  border: red 1px solid;*/
+/*}*/
 
-.error {
-  border: red 1px solid;
-}
+/*.error-message {*/
+/*  color: red;*/
+/*}*/
 
-.error-message {
-  color: red;
-}
+/*.active-filter {*/
+/*  background-color: lightgreen;*/
+/*}*/
 
-.active-filter {
-  background-color: lightgreen;
-}
+/*.delete-all:hover {*/
+/* background-color: rgb(255, 0, 0);*/
+/*}*/
 
-.delete-all:hover {
- background-color: rgb(255, 0, 0);
-}
-
-.is-done {
-  opacity: 0.5;
-  text-decoration: line-through;
-  font-style: italic;
-}
+/*.is-done {*/
+/*  opacity: 0.5;*/
+/*  text-decoration: line-through;*/
+/*  font-style: italic;*/
+/*}*/

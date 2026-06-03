@@ -1,12 +1,15 @@
 import {ChangeEvent, useState} from "react";
+import {Box, TextField} from "@mui/material";
+import {TaskType} from "./TodolistItem.tsx";
+import {getTaskSX} from "./EditableSpan.styles.ts";
 
 type PropsType = {
   title: string,
   changeTitle: (newTitle: string) => void,
-  className?: string
+  isDone: TaskType["isDone"],
 }
 
-export const EditableSpan = ({title, changeTitle, className}: PropsType) => {
+export const EditableSpan = ({title, changeTitle, isDone}: PropsType) => {
 
   const [itemTitle, setItemTitle] = useState(title)
   const [editMode, setEditMode] = useState(false)
@@ -23,15 +26,17 @@ export const EditableSpan = ({title, changeTitle, className}: PropsType) => {
   }
   return (
     editMode
-      ? <input
+      ? <TextField
+        variant="standard"
         value={itemTitle}
         onChange={setLocalTitleHandler}
         onBlur={offEditMode}
         autoFocus
       />
-      : <span
+      : <Box
+        component="span"
         onDoubleClick={onEditMode}
-        className={className}
-      >{title}</span>
+        sx={getTaskSX(isDone)}
+      >{title}</Box>
   )
 }
