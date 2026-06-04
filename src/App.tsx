@@ -204,7 +204,8 @@ export const App = () => {
                 <NavButton size={'small'}>Sign up</NavButton>
                 <NavButton
                   size={'small'}
-                  background="#490327"
+                  background={theme.palette.secondary.light}
+                  // background="#490327"
                 >Faq</NavButton>
               </Box>
             </Container>
