@@ -1,5 +1,5 @@
 import {TaskType} from "../TodolistItem.tsx";
-import {FilterValueType} from "../App.tsx";
+import {FilterValueType} from "../app/App.tsx";
 
 export const getFilterTasks = (tasks: TaskType[], filter: FilterValueType) => {
   let filteredTasks = tasks

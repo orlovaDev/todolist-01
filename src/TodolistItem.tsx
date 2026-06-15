@@ -1,5 +1,5 @@
 import {Box, Button, Checkbox, IconButton, List, ListItem} from '@mui/material';
-import {FilterValueType, TodolistType} from "./App.tsx";
+import {FilterValueType, TodolistType} from "./app/App.tsx";
 import {ChangeEvent} from 'react'
 import {CreateItemForm} from "./CreateItemForm.tsx";
 import {EditableSpan} from "./EditableSpan.tsx";

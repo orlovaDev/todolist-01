@@ -1,4 +1,4 @@
-import {FilterValueType, TodolistType} from "../App.tsx";
+import {FilterValueType, TodolistType} from "../app/App.tsx";
 import {v1} from "uuid";
 
 //DeleteTodolistActionType

@@ -1,5 +1,5 @@
 import {CreateTodolistAT, DeleteTodolistAT} from "./todolists-reducer.ts";
-import {TaskStateType, TodolistType} from "../App.tsx";
+import {TaskStateType, TodolistType} from "../app/App.tsx";
 import {TaskType} from "../TodolistItem.tsx";
 import {v1} from "uuid";
 

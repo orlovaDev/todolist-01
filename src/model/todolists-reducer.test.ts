@@ -1,6 +1,6 @@
 import {v1} from 'uuid'
 import {beforeEach, expect, test} from 'vitest'
-import type {TodolistType} from '../App'
+import type {TodolistType} from '../app/App.tsx'
 import {changeTodolistFilterAC, changeTodolistTitleAC, createTodolistAC, deleteTodolistAC, todolistsReducer} from './todolists-reducer'
 
 let todolistId1: string

@@ -1,16 +1,16 @@
 import './App.css'
-import {TaskType, TodolistItem} from "./TodolistItem.tsx";
+import {TaskType, TodolistItem} from "../TodolistItem.tsx";
 import {useReducer, useState} from "react";
 import {v1} from "uuid";
-import {CreateItemForm} from "./CreateItemForm.tsx";
-import {getFilterTasks} from "./utilites/getFilteredTasks.ts";
+import {CreateItemForm} from "../CreateItemForm.tsx";
+import {getFilterTasks} from "../utilites/getFilteredTasks.ts";
 import {AppBar, Box, Container, createTheme, CssBaseline, Grid, IconButton, Paper, Switch, Toolbar} from "@mui/material";
 import MenuIcon from '@mui/icons-material/Menu'
-import {container} from "./Todolist.styles.ts";
-import {NavButton} from "./NavButton.ts";
+import {container} from "../Todolist.styles.ts";
+import {NavButton} from "../NavButton.ts";
 import {ThemeProvider} from "@mui/material/styles";
-import {changeTodolistFilterAC, changeTodolistTitleAC, createTodolistAC, deleteTodolistAC, todolistsReducer} from "./model/todolists-reducer.ts";
-import {changeTaskStatusAC, changeTaskTitleAC, createTaskAC, deleteTaskAC, tasksReducer} from "./model/tasks-reducer.ts";
+import {changeTodolistFilterAC, changeTodolistTitleAC, createTodolistAC, deleteTodolistAC, todolistsReducer} from "../model/todolists-reducer.ts";
+import {changeTaskStatusAC, changeTaskTitleAC, createTaskAC, deleteTaskAC, tasksReducer} from "../model/tasks-reducer.ts";
 
 export type FilterValueType = 'all' | 'active' | 'completed'
 
