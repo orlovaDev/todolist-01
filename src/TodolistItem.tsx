@@ -73,18 +73,24 @@ export const TodolistItem = ({
               {/*  onChange={changeTaskStatusHandler}*/}
               {/*/>*/}
 
-              <Checkbox checked={task.isDone}
-                        onChange={changeTaskStatusHandler}
-                        size="small"
+              <Checkbox
+                checked={task.isDone}
+                onChange={changeTaskStatusHandler}
+                size="small"
+                color="secondary"
               />
 
               <EditableSpan
                 title={task.title}
                 changeTitle={changeTaskTitleHandler}
-              isDone={task.isDone}
+                isDone={task.isDone}
               />
 
-              <IconButton onClick={deleteTaskHandler} size="small">
+              <IconButton
+                onClick={deleteTaskHandler}
+                size="small"
+                color="secondary"
+              >
                 <DeleteForeverIcon />
               </IconButton>
 
@@ -110,7 +116,10 @@ export const TodolistItem = ({
           title={title}
           changeTitle={changeTodolistTitleHandler}
         />
-        <IconButton onClick={deleteTodolistHandler} size="small">
+        <IconButton
+          onClick={deleteTodolistHandler}
+          size="small"
+        >
           <DeleteForeverIcon />
         </IconButton>
       </h3>

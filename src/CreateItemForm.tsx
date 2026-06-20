@@ -55,6 +55,7 @@ export const CreateItemForm = ({createItem, maxTitleLength}: PropsType) => {
   return (
     <div>
       <TextField
+        color={"secondary"}
         label={'Enter a title'}
         variant="outlined"
         size="small"
@@ -76,6 +77,7 @@ export const CreateItemForm = ({createItem, maxTitleLength}: PropsType) => {
         onClick={createItemHandler}
         disabled={isTooLong}
         size="small"
+        color="secondary"
       >
         <AddBoxIcon />
       </IconButton>

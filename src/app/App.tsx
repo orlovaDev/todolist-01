@@ -12,6 +12,7 @@ import {ThemeProvider} from "@mui/material/styles";
 import {changeTodolistFilterAC, changeTodolistTitleAC, createTodolistAC, deleteTodolistAC, todolistsReducer} from "../model/todolists-reducer.ts";
 import {changeTaskStatusAC, changeTaskTitleAC, createTaskAC, deleteTaskAC, tasksReducer} from "../model/tasks-reducer.ts";
 
+
 export type FilterValueType = 'all' | 'active' | 'completed'
 
 export type TodolistType = {
@@ -30,7 +31,7 @@ export const App = () => {
   const todolistId_1 = v1()
   const todolistId_2 = v1()
 
-  const [todolists, dispatchToTodolistsReducer] = useReducer(todolistsReducer, [
+  const [todolists, dispatchToTodolistsReducer] = useReducer(todolistsReducer,[
     {
       id: todolistId_1,
       title: "What to learn",
@@ -55,6 +56,7 @@ export const App = () => {
   //     filter: "all"
   //   },
   // ]);
+
 
   const [tasks, dispatchToTasksReducer] = useReducer(tasksReducer, {
     [todolistId_1]: [
